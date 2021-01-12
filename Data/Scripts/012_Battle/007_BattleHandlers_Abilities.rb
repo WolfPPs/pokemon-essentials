@@ -1120,6 +1120,12 @@ BattleHandlers::DamageCalcUserAbility.add(:TOXICBOOST,
   }
 )
 
+BattleHandlers::DamageCalcUserAbility.add(:TRANSISTOR,
+  proc { |ability,user,target,move,mults,baseDmg,type|
+    mults[ATK_MULT] *= 1.5 if isConst?(type,PBTypes,:ELECTRIC)
+  }
+)
+
 BattleHandlers::DamageCalcUserAbility.add(:WATERBUBBLE,
   proc { |ability,user,target,move,mults,baseDmg,type|
     mults[ATK_MULT] *= 2 if isConst?(type,PBTypes,:WATER)
