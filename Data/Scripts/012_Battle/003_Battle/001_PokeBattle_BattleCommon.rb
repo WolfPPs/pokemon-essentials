@@ -1,4 +1,4 @@
-module PokeBattle_BattleCommon
+﻿module PokeBattle_BattleCommon
   #=============================================================================
   # Store caught Pokémon
   #=============================================================================
@@ -109,6 +109,13 @@ module PokeBattle_BattleCommon
     PBDebug.log("[Threw Poké Ball] #{itemName}, #{numShakes} shakes (4=capture)")
     # Animation of Ball throw, absorb, shake and capture/burst out
     @scene.pbThrow(ball,numShakes,@criticalCapture,battler.index,showPlayer)
+    # Ball Fetch
+    if numShakes<4 && ball!=(PBItems::SAFARIBALL || PBItems::MASTERBALL)
+      eachOtherSideBattler(battler) do |b|
+        next if battler.pbOpposingSide.effects[PBEffects::BallFetch]<0
+        battler.pbOpposingSide.effects[PBEffects::BallFetch] = ball
+      end
+    end
     # Outcome message
     case numShakes
     when 0

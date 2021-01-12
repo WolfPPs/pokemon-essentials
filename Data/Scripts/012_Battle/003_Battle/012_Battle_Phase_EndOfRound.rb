@@ -1,4 +1,4 @@
-class PokeBattle_Battle
+﻿class PokeBattle_Battle
   #=============================================================================
   # Decrement effect counters
   #=============================================================================
@@ -647,6 +647,9 @@ class PokeBattle_Battle
     end
     # Reset/count down side-specific effects (no messages)
     for side in 0...2
+      if @sides[side].effects[PBEffects::BallFetch]>0
+        @sides[side].effects[PBEffects::BallFetch]=-2
+      end
       @sides[side].effects[PBEffects::CraftyShield]         = false
       if !@sides[side].effects[PBEffects::EchoedVoiceUsed]
         @sides[side].effects[PBEffects::EchoedVoiceCounter] = 0

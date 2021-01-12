@@ -135,27 +135,28 @@ begin
     # These effects apply to a side
     #===========================================================================
     AuroraVeil         = 0
-    CraftyShield       = 1
-    EchoedVoiceCounter = 2
-    EchoedVoiceUsed    = 3
-    LastRoundFainted   = 4
-    LightScreen        = 5
-    LuckyChant         = 6
-    MatBlock           = 7
-    Mist               = 8
-    QuickGuard         = 9
-    Rainbow            = 10
-    Reflect            = 11
-    Round              = 12
-    Safeguard          = 13
-    SeaOfFire          = 14
-    Spikes             = 15
-    StealthRock        = 16
-    StickyWeb          = 17
-    Swamp              = 18
-    Tailwind           = 19
-    ToxicSpikes        = 20
-    WideGuard          = 21
+    BallFetch          = 1
+    CraftyShield       = 2
+    EchoedVoiceCounter = 3
+    EchoedVoiceUsed    = 4
+    LastRoundFainted   = 5
+    LightScreen        = 6
+    LuckyChant         = 7
+    MatBlock           = 8
+    Mist               = 9
+    QuickGuard         = 10
+    Rainbow            = 11
+    Reflect            = 12
+    Round              = 13
+    Safeguard          = 14
+    SeaOfFire          = 15
+    Spikes             = 16
+    StealthRock        = 17
+    StickyWeb          = 18
+    Swamp              = 19
+    Tailwind           = 20
+    ToxicSpikes        = 21
+    WideGuard          = 22
 
     #===========================================================================
     # These effects apply to the battle (i.e. both sides)

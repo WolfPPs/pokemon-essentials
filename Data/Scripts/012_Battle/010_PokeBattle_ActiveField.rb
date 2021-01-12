@@ -40,6 +40,7 @@ begin
     def initialize
       @effects = []
       @effects[PBEffects::AuroraVeil]         = 0
+      @effects[PBEffects::BallFetch]          = 0
       @effects[PBEffects::CraftyShield]       = false
       @effects[PBEffects::EchoedVoiceCounter] = 0
       @effects[PBEffects::EchoedVoiceUsed]    = false

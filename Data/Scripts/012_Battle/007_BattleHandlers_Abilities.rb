@@ -1,4 +1,4 @@
-#===============================================================================
+﻿#===============================================================================
 # SpeedCalcAbility handlers
 #===============================================================================
 
@@ -1996,6 +1996,24 @@ BattleHandlers::EOREffectAbility.add(:SPEEDBOOST,
 #===============================================================================
 # EORGainItemAbility handlers
 #===============================================================================
+BattleHandlers::EORGainItemAbility.add(:BALLFETCH,
+  proc { |ability,battler,battle|
+    next if battler.pbOwnSide.effects[PBEffects::BallFetch]<=0
+    foundPokeBall=battler.pbOwnSide.effects[PBEffects::BallFetch]
+    battle.pbShowAbilitySplash(battler) if PokeBattle_SceneConstants::USE_ABILITY_SPLASH
+    battler.item = foundPokeBall
+    battler.pbOwnSide.effects[PBEffects::BallFetch] = -2
+    battler.setInitialItem(foundPokeBall)
+    itemName = PBItems.getName(foundPokeBall)
+    if itemName.starts_with_vowel?
+      battle.pbDisplay(_INTL("{1} found an {2}!",battler.pbThis,itemName))
+    else
+      battle.pbDisplay(_INTL("{1} found a {2}!",battler.pbThis,itemName))
+    end
+    battle.pbHideAbilitySplash(battler) if PokeBattle_SceneConstants::USE_ABILITY_SPLASH
+  }
+)
+
 
 BattleHandlers::EORGainItemAbility.add(:HARVEST,
   proc { |ability,battler,battle|
