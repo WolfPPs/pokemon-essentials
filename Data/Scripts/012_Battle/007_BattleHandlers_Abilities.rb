@@ -2335,6 +2335,12 @@ BattleHandlers::AbilityOnSwitchIn.add(:INTIMIDATE,
   }
 )
 
+BattleHandlers::AbilityOnSwitchIn.add(:INTREPIDSWORD,
+  proc { |ability,battler,battle|
+    battler.pbRaiseStatStageByAbility(PBStats::ATTACK,1,battler)
+  }
+)
+
 BattleHandlers::AbilityOnSwitchIn.add(:MISTYSURGE,
   proc { |ability,battler,battle|
     next if battle.field.terrain==PBBattleTerrains::Misty
