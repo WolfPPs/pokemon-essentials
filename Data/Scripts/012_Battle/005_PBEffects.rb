@@ -127,9 +127,11 @@ begin
     FutureSightUserPartyIndex = 3
     HealingWish               = 4
     LunarDance                = 5
-    Wish                      = 6
-    WishAmount                = 7
-    WishMaker                 = 8
+    StickyWebUserIndex        = 6
+    StickyWebUserPartyIndex   = 7
+    Wish                      = 8
+    WishAmount                = 9
+    WishMaker                 = 10
 
     #===========================================================================
     # These effects apply to a side

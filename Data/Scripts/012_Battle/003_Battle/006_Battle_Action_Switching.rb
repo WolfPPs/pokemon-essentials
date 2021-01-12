@@ -1,4 +1,4 @@
-class PokeBattle_Battle
+﻿class PokeBattle_Battle
   #=============================================================================
   # Choosing Pokémon to switch
   #=============================================================================
@@ -392,10 +392,24 @@ class PokeBattle_Battle
     # Sticky Web
     if battler.pbOwnSide.effects[PBEffects::StickyWeb] && !battler.fainted? &&
        !battler.airborne?
-      pbDisplay(_INTL("{1} was caught in a sticky web!",battler.pbThis))
-      if battler.pbCanLowerStatStage?(PBStats::SPEED)
-        battler.pbLowerStatStage(PBStats::SPEED,1,nil)
-        battler.pbItemStatRestoreCheck
+      if battler.hasActiveAbility?(:MIRRORARMOR)
+        pbShowAbilitySplash(battler,true); statsDown=true
+        eachBattler do |b|
+          @positions.each_with_index do |pos,idxPos|
+            next if b.index!=pos.effects[PBEffects::StickyWebUserIndex]
+            next if b.pokemonIndex!=pos.effects[PBEffects::StickyWebUserPartyIndex]
+            if b.pbCanLowerStatStage?(PBStats::SPEED,battler,nil,false,false,true) && statsDown
+              b.pbLowerStatStage(PBStats::SPEED,1,battler,true,false,true)
+              b.pbItemStatRestoreCheck; statsDown=false
+            end
+          end
+        end
+        pbHideAbilitySplash(battler)
+      else
+        if battler.pbCanLowerStatStage?(PBStats::SPEED)
+          battler.pbLowerStatStage(PBStats::SPEED,1,nil)
+          battler.pbItemStatRestoreCheck
+        end
       end
     end
     # Battler faints if it is knocked out because of an entry hazard above

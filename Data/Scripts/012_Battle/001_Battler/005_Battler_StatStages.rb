@@ -115,11 +115,16 @@ class PokeBattle_Battler
     return @stages[stat]<=-6
   end
 
-  def pbCanLowerStatStage?(stat,user=nil,move=nil,showFailMsg=false,ignoreContrary=false)
+  def pbCanLowerStatStage?(stat,user=nil,move=nil,showFailMsg=false,ignoreContrary=false,ignoreMirrorArmor=false)
     return false if fainted?
     # Contrary
     if hasActiveAbility?(:CONTRARY) && !ignoreContrary && !@battle.moldBreaker
       return pbCanRaiseStatStage?(stat,user,move,showFailMsg,true)
+    end
+    # Mirror Armor
+    if hasActiveAbility?(:MIRRORARMOR) && !ignoreMirrorArmor && !@battle.moldBreaker &&
+       (!user || user.index!=@index)
+      return user.pbCanLowerStatStage?(stat,self,move,showFailMsg,ignoreContrary,true)
     end
     if !user || user.index!=@index   # Not self-inflicted
       if @effects[PBEffects::Substitute]>0 && !(move && move.ignoresSubstitute?(user))
@@ -173,11 +178,19 @@ class PokeBattle_Battler
     return increment
   end
 
-  def pbLowerStatStage(stat,increment,user,showAnim=true,ignoreContrary=false)
+  def pbLowerStatStage(stat,increment,user,showAnim=true,ignoreContrary=false,ignoreMirrorArmor=false)
     return false if !PBStats.validBattleStat?(stat)
     # Contrary
     if hasActiveAbility?(:CONTRARY) && !ignoreContrary && !@battle.moldBreaker
       return pbRaiseStatStage(stat,increment,user,showAnim,true)
+    end
+    # Mirror Armor
+    if hasActiveAbility?(:MIRRORARMOR) && !ignoreMirrorArmor && !@battle.moldBreaker &&
+       (!user || user.index!=@index)
+      @battle.pbShowAbilitySplash(self)
+      user.pbLowerStatStage(stat,increment,self,showAnim,ignoreContrary,true)
+      @battle.pbHideAbilitySplash(self)
+      return false
     end
     # Perform the stat stage change
     increment = pbLowerStatStageBasic(stat,increment,ignoreContrary)
@@ -196,11 +209,19 @@ class PokeBattle_Battler
     return true
   end
 
-  def pbLowerStatStageByCause(stat,increment,user,cause,showAnim=true,ignoreContrary=false)
+  def pbLowerStatStageByCause(stat,increment,user,cause,showAnim=true,ignoreContrary=false,ignoreMirrorArmor=false)
     return false if !PBStats.validBattleStat?(stat)
     # Contrary
     if hasActiveAbility?(:CONTRARY) && !ignoreContrary && !@battle.moldBreaker
       return pbRaiseStatStageByCause(stat,increment,user,cause,showAnim,true)
+    end
+    # Mirror Armor
+    if hasActiveAbility?(:MIRRORARMOR) && !ignoreMirrorArmor && !@battle.moldBreaker &&
+       (!user || user.index!=@index)
+      @battle.pbShowAbilitySplash(self)
+      user.pbLowerStatStageByCause(stat,increment,self,cause,showAnim,ignoreContrary,true)
+      @battle.pbHideAbilitySplash(self)
+      return false
     end
     # Perform the stat stage change
     increment = pbLowerStatStageBasic(stat,increment,ignoreContrary)
@@ -259,7 +280,7 @@ class PokeBattle_Battler
     # NOTE: These checks exist to ensure appropriate messages are shown if
     #       Intimidate is blocked somehow (i.e. the messages should mention the
     #       Intimidate ability by name).
-    if !hasActiveAbility?(:CONTRARY)
+    if !hasActiveAbility?([:CONTRARY,:MIRRORARMOR])
       if pbOwnSide.effects[PBEffects::Mist]>0
         @battle.pbDisplay(_INTL("{1} is protected from {2}'s {3} by Mist!",
            pbThis,user.pbThis(true),user.abilityName))

@@ -77,6 +77,8 @@ begin
       @effects[PBEffects::FutureSightUserIndex]      = -1
       @effects[PBEffects::FutureSightUserPartyIndex] = -1
       @effects[PBEffects::HealingWish]               = false
+      @effects[PBEffects::StickyWebUserIndex]        = 0
+      @effects[PBEffects::StickyWebUserPartyIndex]   = 0
       @effects[PBEffects::LunarDance]                = false
       @effects[PBEffects::Wish]                      = 0
       @effects[PBEffects::WishAmount]                = 0

@@ -1772,6 +1772,11 @@ class PokeBattle_Move_153 < PokeBattle_Move
     @battle.pbDisplay(_INTL("A sticky web has been laid out beneath {1}'s feet!",
        user.pbOpposingTeam(true)))
   end
+
+  def pbEffectAfterAllHits(user,target)
+    @battle.positions[user.index].effects[PBEffects::StickyWebUserIndex]      = user.index
+    @battle.positions[user.index].effects[PBEffects::StickyWebUserPartyIndex] = user.pokemonIndex      
+  end
 end
 
 
