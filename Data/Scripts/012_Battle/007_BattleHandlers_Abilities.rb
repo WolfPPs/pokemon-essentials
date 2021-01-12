@@ -1158,6 +1158,12 @@ BattleHandlers::DamageCalcUserAllyAbility.add(:POWERSPOT,
   }
 )
 
+BattleHandlers::DamageCalcUserAllyAbility.add(:STEELYSPIRIT,
+  proc { |ability,user,target,move,mults,baseDmg,type|
+    mults[FINAL_DMG_MULT] *= 1.5 if isConst?(type,PBTypes,:STEEL)
+  }
+)
+
 #===============================================================================
 # DamageCalcTargetAbility handlers
 #===============================================================================
