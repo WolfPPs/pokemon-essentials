@@ -1152,6 +1152,12 @@ BattleHandlers::DamageCalcUserAllyAbility.add(:FLOWERGIFT,
   }
 )
 
+BattleHandlers::DamageCalcUserAllyAbility.add(:POWERSPOT,
+  proc { |ability,user,target,move,mults,baseDmg,type|
+    mults[FINAL_DMG_MULT] *= 1.3 if move.pbDamagingMove?
+  }
+)
+
 #===============================================================================
 # DamageCalcTargetAbility handlers
 #===============================================================================
