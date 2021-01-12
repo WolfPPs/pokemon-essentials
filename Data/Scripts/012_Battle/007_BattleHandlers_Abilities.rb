@@ -1070,6 +1070,12 @@ BattleHandlers::DamageCalcUserAbility.add(:STEELWORKER,
   }
 )
 
+BattleHandlers::DamageCalcUserAbility.add(:STEELYSPIRIT,
+  proc { |ability,user,target,move,mults,baseDmg,type|
+    mults[ATK_MULT] *= 1.5 if isConst?(type,PBTypes,:STEEL)
+  }
+)
+
 BattleHandlers::DamageCalcUserAbility.add(:STRONGJAW,
   proc { |ability,user,target,move,mults,baseDmg,type|
     mults[BASE_DMG_MULT] *= 1.5 if move.bitingMove?
