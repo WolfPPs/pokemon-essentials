@@ -1,4 +1,4 @@
-#===============================================================================
+﻿#===============================================================================
 # Starts rainy weather. (Rain Dance)
 #===============================================================================
 class PokeBattle_Move_100 < PokeBattle_WeatherMove
@@ -895,12 +895,15 @@ class PokeBattle_Move_120 < PokeBattle_Move
   def pbMoveFailed?(user,targets)
     numTargets = 0
     @idxAlly = -1
+    @idxA = -1; @idxB = -1 # Propeller Tail/ Stalwart abilities
     idxUserOwner = @battle.pbGetOwnerIndexFromBattlerIndex(user.index)
     user.eachAlly do |b|
       next if @battle.pbGetOwnerIndexFromBattlerIndex(b.index)!=idxUserOwner
       next if !b.near?(user)
       numTargets += 1
       @idxAlly = b.index
+      @idxA = user.index
+      @idxB = @idxAlly
     end
     if numTargets!=1
       @battle.pbDisplay(_INTL("But it failed!"))
@@ -915,6 +918,11 @@ class PokeBattle_Move_120 < PokeBattle_Move
     if @battle.pbSwapBattlers(idxA,idxB)
       @battle.pbDisplay(_INTL("{1} and {2} switched places!",
          @battle.battlers[idxB].pbThis,@battle.battlers[idxA].pbThis(true)))
+    end
+    @battle.eachBattler do |b|
+      next if !b.hasActiveAbility?([:PROPELLERTAIL,:STALWART]) && 
+              !isConst?(@battle.choices[b.index][2].id,PBMoves,:SNIPESHOT)
+      @battle.choices[b.index][3]=(@battle.choices[b.index][3]==@idxA) ? @idxB : @idxA
     end
   end
 end
