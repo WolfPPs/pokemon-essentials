@@ -1348,6 +1348,14 @@ BattleHandlers::TargetAbilityOnHit.add(:ANGERPOINT,
   }
 )
 
+BattleHandlers::TargetAbilityOnHit.add(:COTTONDOWN,
+  proc { |ability,user,target,move,battle|
+    battle.pbShowAbilitySplash(target) if PokeBattle_SceneConstants::USE_ABILITY_SPLASH
+    battle.pbPriority(true).each { |b| b.pbLowerStatStageByAbility(PBStats::SPEED,1,target,false) if b!=target }
+    battle.pbHideAbilitySplash(target) if PokeBattle_SceneConstants::USE_ABILITY_SPLASH
+  }
+)
+
 BattleHandlers::TargetAbilityOnHit.add(:CURSEDBODY,
   proc { |ability,user,target,move,battle|
     next if user.fainted?
