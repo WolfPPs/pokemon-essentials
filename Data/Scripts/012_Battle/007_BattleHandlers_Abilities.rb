@@ -2173,6 +2173,12 @@ BattleHandlers::AbilityOnSwitchIn.add(:DARKAURA,
   }
 )
 
+BattleHandlers::AbilityOnSwitchIn.add(:DAUNTLESSSHIELD,
+  proc { |ability,battler,battle|
+    battler.pbRaiseStatStageByAbility(PBStats::DEFENSE,1,battler)
+  }
+)
+
 BattleHandlers::AbilityOnSwitchIn.add(:DELTASTREAM,
   proc { |ability,battler,battle|
     pbBattleWeatherAbility(PBWeather::StrongWinds,battler,battle,true)
