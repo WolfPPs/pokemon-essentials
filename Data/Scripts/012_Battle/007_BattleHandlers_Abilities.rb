@@ -1738,6 +1738,8 @@ BattleHandlers::UserAbilityEndOfMove.add(:MOXIE,
   }
 )
 
+BattleHandlers::UserAbilityEndOfMove.copy(:MOXIE,:CHILLINGNEIGH)
+
 #===============================================================================
 # TargetAbilityAfterMoveUse handlers
 #===============================================================================
